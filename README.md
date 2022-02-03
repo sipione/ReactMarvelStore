@@ -1,8 +1,8 @@
 # Projeto Marvel Store em React js
 
-Primeiramente, após uma ifeccção de COVID-19 que me deixou acamado até o dia 31 de janeiro pude começar o projeto dia 01 de fevereiro de 2022, isso mesmo com as 3 doses, cuidem-se!
+Primeiramente, após uma ifecção de COVID-19 que me deixou acamado até o dia 31 de janeiro pude começar o projeto dia 01 de fevereiro de 2022, isso mesmo com as 3 doses, cuidem-se!
 
-O projeto consiste em uma  criação de um loja de HQ da Marvel com utilização de uma API para recebimento de infromações. Consiste em um projeto com extensão pequena de três elementos, de modo geral. a parte de loja aonde serão exibidos os produtos, a parte de carrinho com os pedidos e uma página de exibição do produto em específico. 
+O projeto consiste em uma criação de uma loja de HQ da Marvel com utilização de uma API para recebimento de infromações. Consiste em um projeto com extensão pequena de três elementos, de modo geral. A parte de loja onde serão exibidos os produtos, a parte de carrinho com os pedidos e uma página de exibição do produto em específico. 
 
 Com o prazo curto estou preiorizando as funcionalidades para que tudop funcione para depois fazer os ajustes de design. A construção está seguindo a tecnica de mobile first para facilidade em ajustes de responsividade.
 
@@ -35,3 +35,11 @@ const Cart = ()=>{
 ## Hook customizado
 
 O hook useCart é hook customizado para controle global de valores sem precisar criar um contextol e um provider, por enquanto. Conforme for construído vou analisar a necessidade de utilização de um hook de contexto para evitar variável global como utilizei no hook customizado. Dentro dele, por enquanto possuem duas variáveis um array e um objeto que faz a contagem de acordo com os itens adicioonados no carrinho. Mais adiante pretendo urilizar apenas o objerto com contagem p+ara fornecimento dos dados parta os eklmeentos que utilizam o hook.
+
+## Animações e Estilos
+
+## Página de compra
+
+## Página do carrinho
+
+## Página do produto
