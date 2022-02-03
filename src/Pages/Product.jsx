@@ -47,7 +47,7 @@ const ProductBtnAddCart = styled(Btn)`
 
 const Products = ()=>{
     const {id} = useParams();
-    const [cart, counter, manageCart] = useCart()
+    const [cart, manageCart] = useCart()
 
 
     return(

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import useCart from "../hooks/useCart";
 import { Btn, LittleBox } from "../UI";
 import ApiHqRequest from "../api/Api"
 import styled from "styled-components";
-import { Dark, Light, RedMatte, RedPink } from "../UI/Variable";
+import { Dark, Light, RedMatte, RedPink, TitleFont } from "../UI/Variable";
 import del from "../img/del.png"
+import add from "../img/add.png"
 
 
 const CartList = styled.ul`
@@ -17,7 +19,7 @@ const CartList = styled.ul`
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 90%;
+        width: 80%;
         padding: 2% 2.5%;
         border-right:.5px solid ${Dark};
     }
@@ -25,7 +27,7 @@ const CartList = styled.ul`
         display: flex;
         align-items: center;
         justify-content: center;
-        width:10%;
+        width:20%;
         padding: 2% 2.5%;
         position: relative;
     }
@@ -44,6 +46,13 @@ const CartDelete = styled.img`
     left: 0;
 `
 
+const CartAdd = styled.img`
+    width: 2vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+`
+
 const CartBtnPayment = styled(Btn)`
     width: 90%;
     margin: 10%;
@@ -52,23 +61,44 @@ const CartBtnPayment = styled(Btn)`
     box-shadow: 0 3px 5px gray;
 `
 
+const CartEmpty = styled.h2`
+    font-family: ${TitleFont};
+    font-size: 2rem;
+    color: ${Dark};
+    text-align: center;
+    padding: 25%;
+`
+
+const CartEmptyBtn = styled(Btn)`
+    width: 90%;
+    margin-right: 5%;
+    margin-left: 5%;
+`
+
 const Cart = ()=>{
-    const [cart, counter, manageCart] = useCart();
+    const [cart, manageCart] = useCart();
     const [jsonItems, setJsonItems] = useState([])
 
     useEffect(()=>{
         let items = [];
         ApiHqRequest().map(item=>{
-            if(cart.find(e=> e == item.id)){
+            if(cart[item.id]){
                 items.push(item)
             }
         })
         setJsonItems([...items]);
-    },[manageCart])
+    },[cart])
 
-    console.log(jsonItems);
-
+    if(jsonItems.length == 0){
+        return(
+            <>
+            <CartEmpty>Your cart is empty :( </CartEmpty>
+            <Link to="/"><CartEmptyBtn>Back to the shop</CartEmptyBtn></Link>
+            </>
+        )
+    }
     return(
+        
         <LittleBox>
             <CartList>
                 <li className="bigger">Product</li>
@@ -78,16 +108,18 @@ const Cart = ()=>{
                 jsonItems.map((item, index)=>{
                     return(
                         <CartList>
-                        <div className="bigger">
-                            <CartProductImg src={`${item.thumbnail.path}.${item.thumbnail.extension}`}/>
-                            {item.title}
-                        </div>
-                        <div className="smaller">
-                            <CartDelete src={del} alt="delete item from the cart" accessKey={item.id} id="delete" index={index} onClick={manageCart}/>
-                            
-                            {counter[item.id]}
-                            
-                        </div>
+                            <div className="bigger">
+                                <CartProductImg src={`${item.thumbnail.path}.${item.thumbnail.extension}`}/>
+                                {item.title}
+                            </div>
+                            <div className="smaller">
+                                <CartDelete src={del} alt="delete item from the cart" accessKey={item.id} id="delete" onClick={manageCart}/>
+
+                                <CartAdd src={add} id={item.id} onClick={manageCart}/>
+                                
+                                {cart[item.id]}
+                                
+                            </div>
                         </CartList>
                     )
                 })

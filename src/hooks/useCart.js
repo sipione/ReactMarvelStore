@@ -1,35 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const items = [];
 let counter = {}
 
 function useCart(){
-    const [cartItems, setCartItems] = useState(items);
+    const [cartItems, setCartItems] = useState(counter);
 
     function manageCart(event){
-        const id = event.target.id;
+        const id = event.target.id;        
         if(id != "delete"){
-            items.push(id);
-            setCartItems([...cartItems, id]);
-            if(counter[id]){
+            if(cartItems[id]){
                 counter[id] += 1;
+                setCartItems({...counter})
             }else{
-                counter[id]=1;
+                counter[id] = 1;
+                setCartItems({...counter})
             }
         }else{
             const target = event.target.accessKey;
-            console.log(counter[target]);
             counter[target] -= 1;
-            console.log(counter[target]);
-            if(counter[target] == 0){
-                const index = items.indexOf(target);
-                items.splice(index, 1);
-                
+            if(counter[target] < 0){
+                delete counter[target];
             }
+            setCartItems({...counter})
         }
     }
-    console.log(counter)
-    return [cartItems, counter, manageCart];
+    return [cartItems, manageCart];
 }
 
 export default useCart;

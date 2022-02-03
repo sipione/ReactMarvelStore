@@ -5,6 +5,7 @@ import ApiHqRequest from '../api/Api'
 import {Btn, LittleBox} from "../UI/index"
 import BtnBuy from "../Components/BtnBuy"
 import { Link, useParams } from "react-router-dom";
+import Pagination from "../Components/Pagination";
 
 const FilterBox = styled(LittleBox)`
     align-items: flex-start;
@@ -54,13 +55,43 @@ const ProductDescription = styled.p`
 
 const creatorList = [...ApiHqRequest().map(item=> item.creators.items)];
 
+const teste = [...ApiHqRequest().map(e => (e.creators.items.map(i=>{
+    if(i.role=="editor"){return i.name}})))]
+const teste2 = [...teste]
+let lista = []
+teste2.forEach(e=>e.forEach(i=>lista.push(i)))
+console.log(new Set(lista))
+
+
+
 const allCreators = new Set([...creatorList.map((e,i) => e[0].name)])
+
 
 const Shop = ()=>{ 
     const [creators, setCreators] = useState([...allCreators])
     const [showCreator, setShowCreator] = useState([])
+    const [magazines, setMagazines] = useState([...ApiHqRequest()])
+    const [filteredMagazines, setFilteredMagazines] = useState(magazines)
+    const [offset, setOffset] = useState(0);
+
+    const limit = 5;
+
+    useEffect(()=>{
+        if(showCreator.length !== 0){
+            let list = [];
+            magazines.map(item=>{
+                if(showCreator.find(e=>e==item.creators.items[0].name)){
+                    list.push(item)
+                }
+            })
+            setFilteredMagazines(list)
+        }else{
+            setFilteredMagazines(magazines)
+        }
+        }, [showCreator, offset])
 
     function toggle(event){
+        setOffset(0);
         const name = event.target.id;
         if(!showCreator.find(element=> element == name)){
             setShowCreator([...showCreator, name])
@@ -86,23 +117,21 @@ const Shop = ()=>{
         })}
         </BtnFilterContent>
         </FilterBox>
-
-        {ApiHqRequest().map(item=>{
-            if ((showCreator.length == 0) || (showCreator.find(element => element == item.creators.items[0].name))){
-                return(
-                    <Link to={`/${item.id}`}>
-                        <LittleBox key={item.id}>
-                            <ProductImg src={`${item.thumbnail.path}.${item.thumbnail.extension}`}/>
-                            <ProductContent>
-                                <ProductTitle>{item.title.replace(/#\d+/g, '')}</ProductTitle>
-                                <ProductDescription>{item.description}</ProductDescription>
-                                <BtnBuy>Buy</BtnBuy>
-                            </ProductContent>
-                        </LittleBox>
-                    </Link>
-                )
-            }
+        {filteredMagazines.slice(offset, offset + limit).map(item=>{
+            return(
+                <Link to={`/${item.id}`}>
+                    <LittleBox key={item.id}>
+                        <ProductImg src={`${item.thumbnail.path}.${item.thumbnail.extension}`}/>
+                        <ProductContent>
+                            <ProductTitle>{item.title.replace(/#\d+/g, '')}</ProductTitle>
+                            <ProductDescription>{item.description}</ProductDescription>
+                            <BtnBuy>Buy</BtnBuy>
+                        </ProductContent>
+                    </LittleBox>
+                </Link>
+            )
         })}
+        <Pagination limit={limit} total={filteredMagazines.length} offset={offset} setOffset={setOffset}/>
         </>
     )
 }
