@@ -2,137 +2,78 @@ import React, { useEffect, useState } from "react";
 import styled from 'styled-components'
 import { BodyFont, Dark, Light, TitleFont } from "../UI/Variable";
 import ApiHqRequest from '../api/Api'
-import {Btn, LittleBox} from "../UI/index"
-import BtnBuy from "../Components/BtnBuy"
-import { Link, useParams } from "react-router-dom";
-import Pagination from "../Components/Pagination";
+import BtnBuy from "../Components/shopComponents/BtnBuy"
+import { Link } from "react-router-dom";
+import Pagination from "../Components/shopComponents/Pagination";
+import { BtnFilter, BtnFilterContent, FilterBox, FilterTitle } from "../Components/shopComponents/FilterEditor";
+import { ProductsBox, ProductBox, ProductImg, ProductTitle, ProductDescription } from "../Components/shopComponents/Products"
+import useCreators from "../hooks/useCreators";
 
-const FilterBox = styled(LittleBox)`
-    align-items: flex-start;
-`
-
-const BtnFilterContent = styled.section`
-    max-height: 35vh;
+const MainContent = styled.main`
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    gap: .5rem;
-    padding: .5rem;
+
+    @media screen and (min-width: 780px) {
+        display: grid;
+        grid-template-columns: 20% 80%;
+    }
 `
-
-const FilterTitle = styled.h3`
-    font-family: ${TitleFont};
-    font.size: 2rem;
-    padding: .25rem 1rem;
-`
-
-const BtnFilter=styled(Btn)`
-    width: auto;
-    margin:0;
-`
-
-const ProductContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-`
-const ProductImg = styled.img`
-    width: 100%;
-`
-
-const ProductTitle = styled.h2`
-    font-family: ${TitleFont};
-    font-size: 2rem;
-    color: red
-`
-const ProductDescription = styled.p`
-    font-family: ${BodyFont};
-    font-size: 1rem;
-    color: ${Dark};
-    text-align: justify;
-`
-
-const creatorList = [...ApiHqRequest().map(item=> item.creators.items)];
-
-const teste = [...ApiHqRequest().map(e => (e.creators.items.map(i=>{
-    if(i.role=="editor"){return i.name}})))]
-const teste2 = [...teste]
-let lista = []
-teste2.forEach(e=>e.forEach(i=>lista.push(i)))
-console.log(new Set(lista))
-
-
-
-const allCreators = new Set([...creatorList.map((e,i) => e[0].name)])
-
 
 const Shop = ()=>{ 
-    const [creators, setCreators] = useState([...allCreators])
-    const [showCreator, setShowCreator] = useState([])
-    const [magazines, setMagazines] = useState([...ApiHqRequest()])
+    const [magazines] = useState([...ApiHqRequest()])
     const [filteredMagazines, setFilteredMagazines] = useState(magazines)
+    
+    const [creators, selectedEditors, setShow, filterByEditor] = useCreators(magazines)
+    
     const [offset, setOffset] = useState(0);
 
-    const limit = 5;
+    const limitEachPage = 6;
 
     useEffect(()=>{
-        if(showCreator.length !== 0){
-            let list = [];
-            magazines.map(item=>{
-                if(showCreator.find(e=>e==item.creators.items[0].name)){
-                    list.push(item)
-                }
-            })
-            setFilteredMagazines(list)
+        window.scrollTo(0,0);
+        if(selectedEditors.length !== 0){
+            setFilteredMagazines([...filterByEditor()])
         }else{
             setFilteredMagazines(magazines)
         }
-        }, [showCreator, offset])
+        }, [selectedEditors, offset]
+    )
 
-    function toggle(event){
-        setOffset(0);
-        const name = event.target.id;
-        if(!showCreator.find(element=> element == name)){
-            setShowCreator([...showCreator, name])
-            event.target.style.background ="lightgreen";
-        }else{
-            const index = showCreator.indexOf(name)
-            showCreator.splice(index, 1);
-            setShowCreator([...showCreator]);
-            event.target.style.background =`${Light}`;
-        }
-        
-    }
-
+    
     return(
-        <>
+        <MainContent>
         <FilterBox>
-        <FilterTitle>Filter by creator</FilterTitle>
+        <FilterTitle>Filter by editor</FilterTitle>
         <BtnFilterContent>
         {creators.map(creator =>{
             return(
-                <BtnFilter onClick={toggle} id={creator}>{creator}</BtnFilter>
+                <BtnFilter onClick={event=>{
+                    setShow(event) 
+                    setOffset(0)
+                }} id={creator}>{creator}</BtnFilter>
             )
         })}
         </BtnFilterContent>
         </FilterBox>
-        {filteredMagazines.slice(offset, offset + limit).map(item=>{
-            return(
-                <Link to={`/${item.id}`}>
-                    <LittleBox key={item.id}>
-                        <ProductImg src={`${item.thumbnail.path}.${item.thumbnail.extension}`}/>
-                        <ProductContent>
-                            <ProductTitle>{item.title.replace(/#\d+/g, '')}</ProductTitle>
-                            <ProductDescription>{item.description}</ProductDescription>
-                            <BtnBuy>Buy</BtnBuy>
-                        </ProductContent>
-                    </LittleBox>
-                </Link>
+        
+        <ProductsBox>
+        {filteredMagazines.slice(offset, offset + limitEachPage).map(item=>{
+            return(                
+                <ProductBox key={item.id}>
+                    <ProductImg src={`${item.thumbnail.path}.${item.thumbnail.extension}`}/>
+                    <Link to={`/${item.id}`} className="ProductContent">
+                        <ProductTitle>{item.title.replace(/#\d+/g, '')}</ProductTitle>
+                        <ProductDescription>{item.description}</ProductDescription>
+                        <BtnBuy>Buy</BtnBuy>
+                    </Link>
+                </ProductBox>
             )
         })}
-        <Pagination limit={limit} total={filteredMagazines.length} offset={offset} setOffset={setOffset}/>
-        </>
+        </ProductsBox>
+
+        <Pagination limit={limitEachPage} total={filteredMagazines.length} offset={offset} setOffset={setOffset}/>
+
+        </MainContent>
     )
 }
 

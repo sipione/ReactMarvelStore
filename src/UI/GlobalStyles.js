@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { RedMatte } from "./Variable";
+import { Light, RedLight, RedMatte } from "./Variable";
 
 const GlobalStyle = createGlobalStyle`
     *{
@@ -7,6 +7,15 @@ const GlobalStyle = createGlobalStyle`
         padding:0;
         box-sizing: border-box;
         text-decoration: none;
+
+        ::selection{
+            background-color: ${RedLight};
+            color: ${Light};
+        }
+    }
+
+    html {
+        scroll-behavior: smooth;
     }
 
     body{
