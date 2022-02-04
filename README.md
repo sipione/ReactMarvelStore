@@ -36,7 +36,7 @@ Para criação de rotas de maneira eficaz, seguindo parâmetros de SPA está sen
 ## Controle de efeitos colaterais
 
 As requisições de API são custosas para desempenho, bem como podem gerar efeitos colaterais no programa, por isso todas as requisições serão encapsuladas dentro do hook de useEffect com contro0le de renderização com escutador em certos eventos, como no elemento de carrinho o use effect além de no momento de construção ele também rerenderiza elementos de acordo com o chamamento da função do hook customizado chamado useCart que tem um função chamada managecart.
-```javascript
+```react
 const Cart = ()=>{
     const [cart, counter, manageCart] = useCart();
     const [jsonItems, setJsonItems] = useState([])
