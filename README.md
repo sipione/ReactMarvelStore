@@ -1,45 +1,70 @@
-# Projeto Marvel Store em React js
+# Getting Started with Create React App
 
-Primeiramente, após uma ifecção de COVID-19 que me deixou acamado até o dia 31 de janeiro pude começar o projeto dia 01 de fevereiro de 2022, isso mesmo com as 3 doses, cuidem-se!
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-O projeto consiste em uma criação de uma loja de HQ da Marvel com utilização de uma API para recebimento de infromações. Consiste em um projeto com extensão pequena de três elementos, de modo geral. A parte de loja onde serão exibidos os produtos, a parte de carrinho com os pedidos e uma página de exibição do produto em específico. 
+## Available Scripts
 
-Com o prazo curto estou preiorizando as funcionalidades para que tudop funcione para depois fazer os ajustes de design. A construção está seguindo a tecnica de mobile first para facilidade em ajustes de responsividade.
+In the project directory, you can run:
 
-## Bibliotecas utilizadas.
-Para estilização individual de componentes e geração de um estilo global (com intuito de reset) está sendo utilizada a biblioteca do styled-components, assim facilita a estilização componentizada evitando duplicaçºão e sobreposição de classes em arquivos css.
+### `npm start`
 
-Para criação de rotas de maneira eficaz, seguindo parâmetros de SPA está sendo usada a lib do react-router-dom, assim os componentes são tranferidos sem recarregamento de páginas, isso permite escalabilidade e desempenho de um site que utilikza bastantes elmeentos visuais advindos de api. Como requisição e renderização são processos custosos para o browser, então criar rotas atgravés de criação e destruição de elmentos é uma maneira de ajudar com o desempenho.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Controle de efeitos colaterais
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-As requisições de API são custosas para desempenho, bem como podem gerar efeiotos colaterais no programa, por isso todas as requisições serão encapsuladas dentro do hook de useEffect com contro0le de renderização com escutador em certos eventos, como no elemento de carrinho o use effect além de no momento de construção elee tambem rerenderiza elementos de acordo com o chamamento da função do hook customizado chamado useCart que tem um função chamada managecart.
-```javascript
-const Cart = ()=>{
-    const [cart, counter, manageCart] = useCart();
-    const [jsonItems, setJsonItems] = useState([])
+### `npm test`
 
-    useEffect(()=>{
-        let items = [];
-        ApiHqRequest().map(item=>{
-            if(cart.find(e=> e == item.id)){
-                items.push(item)
-            }
-        })
-        setJsonItems([...items]);
-    },[manageCart])
-    
-    [restante do código]
-}
-```
-## Hook customizado
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-O hook useCart é hook customizado para controle global de valores sem precisar criar um contextol e um provider, por enquanto. Conforme for construído vou analisar a necessidade de utilização de um hook de contexto para evitar variável global como utilizei no hook customizado. Dentro dele, por enquanto possuem duas variáveis um array e um objeto que faz a contagem de acordo com os itens adicioonados no carrinho. Mais adiante pretendo urilizar apenas o objerto com contagem p+ara fornecimento dos dados parta os eklmeentos que utilizam o hook.
+### `npm run build`
 
-## Animações e Estilos
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Página de compra
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-## Página do carrinho
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Página do produto
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import styled from 'styled-components'
 import logo from '../img/marvel-logo.png'
-import { BodyFont, Dark, Light } from "../UI/Variable";
+import { Menu, Nav } from "../UI";
+import { BodyFont, Dark, Light, RedMatte } from "../UI/Variable";
 
 const Container = styled.header`
     background-color: ${Dark};
@@ -12,37 +13,40 @@ const Container = styled.header`
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
+    height: 15vh;
+
+    .linkLogo{
+        width: 30%;
+        margin-bottom: 1rem;
+    }
+
+    @media screen and (min-width: 780px) {
+        height: auto;
+    }
 `
 
 const Logo = styled.img`
-    width: 30%;
-    transition: 2s;
-    margin-bottom: 1rem;
+    width: 100%;
 `
 
-const Menu =  styled.ul`
-    display:flex;
-    flex-direction: row;
-    gap: 1rem;
-
+const HeaderMenu =  styled(Menu)`
+    gap: 1.5rem;
 `
 
-const Nav = styled.a`
-    color: ${Light};
-    font-family: ${BodyFont};
-
+const HeaderNav = styled(Nav)`
+      
 `
 
 const Header = ()=>{
 
     return(
         <Container>
-            <Logo src={logo} alt="Marvel Logo background color red and letter white"/>
-            <Menu>
-                <Link to="/"><Nav>Shop</Nav></Link>
-                <Link to="/cart"><Nav>My cart</Nav></Link>
-                <Link to="#"><Nav>My account</Nav></Link>
-            </Menu>
+            <Link className="linkLogo" to="/"><Logo src={logo} alt="Marvel Logo background color red and letter white"/></Link>
+            <HeaderMenu>
+                <Link to="/"><HeaderNav>Shop</HeaderNav></Link>
+                <Link to="/cart"><HeaderNav>My cart</HeaderNav></Link>
+                <Link to="#"><HeaderNav>My account</HeaderNav></Link>
+            </HeaderMenu>
         </Container>
     )
 }

@@ -24,6 +24,8 @@ function useCart(){
             setCartItems({...counter})
         }
     }
+
+    console.log(cartItems);
     return [cartItems, manageCart];
 }
 
