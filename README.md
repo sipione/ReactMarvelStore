@@ -1,41 +1,46 @@
-<h1 align="center"> Projeto: Marvel Store em React js </h1>
+<h1 align="center"> Project: Marvel Store in React js </h1>
 
-Primeiramente, após uma infecção de COVID-19 que me deixou acamado até o dia 31 de janeiro pude começar o projeto dia 01 de fevereiro de 2022, isso mesmo com as 3 doses, cuidem-se! E espero que gostem da minha sequência de três deploys conforme solicitado.
+Welcome to the project of a small shop for Marvel Comics.
 
-Mesmo com um prazo muito encurtado consegui desenvolver um projeto que pode ser conferido no link https://marvelStore.sipione.tech
+You can follow the operation through the link: marvelstore.sipione.tech. 
 
-A minha primeira loja criada em React, muitas features ainda podem e serão implementadas. Foi bem desafiador essa criação em tempo record, ao mesmo tempo foi muito enriquecedor e uma experiência fantástica. 
+This readme contains how the project was built, as well as what the next improvements will be.
 
-O projeto consiste em uma criação de uma loja de HQ da Marvel com utilização de uma API para recebimento de informações. Consiste em um projeto com extensão pequena de três elementos, de modo geral. A parte de loja onde serão exibidos os produtos, a parte de carrinho com os pedidos e uma página de exibição do produto em específico. 
+This project will be finished by the end of March.
 
-Com o prazo curto estou priorizando as funcionalidades para que tudo funcione para depois fazer os ajustes de design. A construção está seguindo a técnica de mobile first para facilidade em ajustes de responsividade.
+## General Design concept (Our UI)
 
-## UI
+The minimalist and clean design aims to facilitate user navigation with a strong appeal to images and less appeal to colors and texts. The focus is to make the experience pleasant through a beautiful environment, easily navigable and with textual elements presented in a pleasant, rounded and floating way. the hover effects all with transition element so that no change is sudden.
 
-O design minimalista e clean visa facilitar a navegabilidade do usuário com forte apelo às imagens e menos apelo às cores e textos. O foco é tornar a experiência agradável através de um ambiente bonito, facilmente navegável e com elementos textuais apresentados de maneira agradável, arredondada e flutuante. os efeitos de hover todos com elemento de transition para que nenhuma mudança seja brusca. 
+## Folder and files estructures
 
-## Organização dos documentos
+in short: The project is structured with a main file that generates routes between pages, which are built from pre-structured elements. These elements can be fully styled within the component itself or they can inherit some characteristic from the general design folder called the UI
 
-Na pasta principal do projeto é possível verificar os arquivos principais de index.js e App.jsx além das pastas de public e src.
+In the main project folder it is possible to check the main index.js and App.jsx files in addition to the public and src folders.
 
-Na pasta de src além das imagens também é possível conferir a pasta dos components, das páginas, de UI, de API e de hooks personalizados.
+In the src folder, in addition to the images, you can also check the components, pages, UI, API and custom hooks folder.
 
-Na pasta de páginas todos os arquivos possuem a responsabilidade de renderização da página, sendo abstraídas outras responsabilidades para outros documentos, como da parte de estilos mais globais em UI e os estilos mais específicos nas pastas de componentes. Cada página possui uma pasta com seus componentes próprios. Isso facilita a manutenibilidade do código assim como a criação de hooks personalizados para conter lógicas de manuseio das informações fora dos arquivos de renderização.
-
-
-## Componentização e variáveis
-
-Na pasta de UI é possível verificar o arquivo de variáveis o index.js e o arquivo de global style. As variáveis facilita futuras atualizações, principalmente no que diz respeito aos estilo, se quiser mudar todas as fontes de corpo de texto de uma vez basta ir nas variáveis e realizar as alterações. 
+In the pages folder, all files have the responsibility for rendering the page, being abstracted from other responsibilities for other documents, such as the more global styles in the UI and the more specific styles in the component folders. Each page has a folder with its own components. This facilitates code maintainability as well as creating custom hooks to contain information handling logic outside the render files.
 
 
-## Bibliotecas utilizadas.
-Para estilização individual de componentes e geração de um estilo global (com intuito de reset) está sendo utilizada a biblioteca do styled-components, assim facilita a estilização componentizada evitando duplicação e sobreposição de classes em arquivos css.
+## Componentization and variables
 
-Para criação de rotas de maneira eficaz, seguindo parâmetros de SPA está sendo usada a lib do react-router-dom, assim os componentes são transferidos sem recarregamento de páginas, isso permite escalabilidade e desempenho de um site que utiliza bastantes elementos visuais advindos de api. Como requisição e renderização são processos custosos para o browser, então criar rotas através de criação e destruição de elementos é uma maneira de ajudar com o desempenho.
+In the UI folder it is possible to check the variables file index.js and the global style file. Variables facilitate future updates, especially with regard to style, if you want to change all body text fonts at once, just go to variables and make the changes.
 
-## Controle de efeitos colaterais
+The variable creation system is very useful, even for building theme providers and related elements.
 
-As requisições de API são custosas para desempenho, bem como podem gerar efeitos colaterais no programa, por isso todas as requisições serão encapsuladas dentro do hook de useEffect com contro0le de renderização com escutador em certos eventos, como no elemento de carrinho o use effect além de no momento de construção ele também rerenderiza elementos de acordo com o chamamento da função do hook customizado chamado useCart que tem um função chamada managecart.
+In addition, componentized creation is the raison d'être of the React lib, because having a structure with components that are placed in a more general structure makes maintainability easier, as well as updates can be done in a way that has no side effects unwanted elsewhere in the application
+
+
+## Libraries used.
+For individual styling of components and generation of a global style (with the intention of reset) the styled-components library is being used, thus facilitating componentized styling by avoiding duplication and overlapping of classes in css files.
+
+To create routes efficiently, following SPA parameters, the react-router-dom lib is being used, so the components are transferred without page reloading, this allows scalability and performance of a site that uses a lot of visual elements from api . As requesting and rendering are expensive processes for the browser, so creating routes by creating and destroying elements is one way to help with performance.
+
+
+## Side effects' control
+
+API requests are costly for performance, as well as causing side effects in the program, so all requests will be encapsulated within the useEffect hook with listener rendering control on certain events, such as in the cart element the use effect in addition to at build time it also re-renders elements according to the custom hook function call called useCart which has a function called managecart.
 ```react
 const Cart = ()=>{
     const [cart, counter, manageCart] = useCart();
@@ -54,54 +59,56 @@ const Cart = ()=>{
     [restante do código]
 }
 ```
-## Hook customizado
+## custom hook
 
-O hook useCart é hook customizado para controle global de valores sem precisar criar um contexto e um provider, por enquanto. Conforme for construído vou analisar a necessidade de utilização de um hook de contexto para evitar variável global como utilizei no hook customizado. Dentro dele, por enquanto possuem duas variáveis um array e um objeto que faz a contagem de acordo com os itens adicionados no carrinho. Mais adiante pretendo utilizar apenas o objeto com contagem para fornecimento dos dados parta os elementos que utilizam o hook.
+The useCart hook is a custom hook for global control of values ​​without needing to create a context and a provider, for now. As it is built I will analyze the need to use a context hook to avoid global variable as I used in the custom hook. Inside it, for now, they have two variables, an array and an object that counts according to the items added to the cart. Later I intend to use only the object with count to supply the data for the elements that use the hook.
 
-Outro hook customizado foi o useCreators para isolamento de responsabilidades, retirando as fórmulas da página Shop e utilizando em um ambiente com funções com responsabilidades isoladas. Sendo assim, a página resta apenas com a renderização, quanto as lógicas de funções acontecem em um hook especializado e apenas retorna as informações para que a página use.
+Another custom hook was useCreators for isolating responsibilities, removing formulas from the Shop page and using them in an environment with functions with isolated responsibilities. So, the page is left only with rendering, when the function logic happens in a specialized hook and just returns the information for the page to use.
 
-## Animações e Estilos
+## Animations and Styles
 
-Os estilos encontram-se isolados nos componentes, cada página possuem seus componentes criados a partir da pasta de componentes, reservando ali a responsabilidade de estilos, sendo que os itens que foram herdados estão também isolados no arquivo index.js na pasta de UI. Assim como na mesma pasta encontram-se os estilos globais aplicados. Os estilos globais também foram utilizados através da styled components pelo método create Global Style. 
+The styles are isolated in the components, each page has its components created from the components folder, reserving the responsibility of styles there, and the inherited items are also isolated in the index.js file in the UI folder. As well as in the same folder are the global styles applied. Global styles were also used through styled components by the create Global Style method.
 
-Infelizmente as animações são itens que pretendo adicionar ao prohjeto, principalmente nas transições entre as páginas, uma biblioteca externa que se presta ao objetivo é a React Transition Group que da para fazer transições completas entre as rotas do react router dom. 
+Unfortunately the animations are items that I intend to add to the project, mainly in the transitions between the pages, an external library that lends itself to the objective is the React Transition Group that can make complete transitions between the react router dom routes.
 
-## Página de compra
+## Purchase page
 
-A página de compras faz a requisição dos itens através do arquivo de API e renderiza os itens individuais. Ou seja, cada item foi separado em um card com a imagem, título, descrição e botão comprar. O preço infelizmente não foi fornecido pela API da marvel, motivo pelo qual não consta no site. Assim, os itens são armazenados em um hook específico e são renderizados pouco a pouco, de acordo com o item máximo de cada página e os filtros aplicados. Para esse projeto, por enquanto as páginas possuem no máximo 6 itens divididos em até duas linhas e três colunas. 
+The shopping page orders the items through the API file and renders the individual items. That is, each item was separated into a card with the image, title, description and buy button. The price unfortunately was not provided by the marvel API, which is why it is not on the site. Thus, items are stored in a specific hook and are rendered little by little, according to the maximum item on each page and the filters applied. For this project, for now the pages have a maximum of 6 items divided into up to two rows and three columns.
 
-O filtro mencionado é dos editores, conforme o editor é escolhido, podendo ser escolhido simultaneamente mais de um, os itens correspondentes são renderizados na tela.
+The mentioned filter belongs to the editors, as the editor is chosen, more than one can be chosen simultaneously, the corresponding items are rendered on the screen.
 
-A paginação é feita com componente específico que leva em consideração o número de itens, o número limite por página, a quantidade que será pulada e um setter para mudar o offset(o que será pulado). Na lista de paginação aparecem no máximo 5 números. Após o três e antes das duas últimas página a página atual sempre fica no centro seguindo anteriormente pelas duas antecessoras e seguido pelas duas posteriores. A página atua é indicada com um background diferente dos demais.
+The pagination is done with a specific component that takes into account the number of items, the limit number per page, the amount that will be skipped and a setter to change the offset (which will be skipped). A maximum of 5 numbers appear in the pagination list. After the three and before the last two pages the current page is always in the center followed by the two predecessors and followed by the two following ones. The current page is indicated with a different background from the others.
 
-Os itens são clicáveis e isso leva à página do produto em específico, o apresentando em maiores detalhes.
+Items are clickable and this takes you to the specific product page, presenting it in more detail.
 
-## Página do produto
+## Product page
 
-A página do produto consiste em um card com imagens do produto que podem ser ampliadas, links para voltar à página principal e para ir direto para o carrinho além dos menus de navegação do cabeçalho e do rodapé. 
+The product page consists of a card with zoomable product images, links to go back to the main page and to go straight to the cart, in addition to the header and footer navigation menus.
 
-Logo abaixo da imagem é possível conferir os detalhes do produto e enviá-lo para o carrinho quantas vezes desejar, podendo o a quantidade de produtos ser ajustada dentro da página do carrinho.
+Just below the image it is possible to check the details of the product and send it to the cart as many times as you wish, and the quantity of products can be adjusted within the cart page.
 
-## Página do carrinho
+## Cart page
 
-A página do carrinho conta com a lista de produtos com imagem título, link para levar de volta aos detalhes e quantidade de itens que pode ser modificada em empo real. quando a quantidade chega a zero o item é retirado automaticamente do carrinho.
+The cart page has the list of products with title image, link to take back to the details and quantity of items that can be modified in real time. when the quantity reaches zero the item is automatically removed from the cart.
 
-A página do carrinho vazia possui um design completamente diferente de quando possui itens, contando com um botão para retorno às compras na página principal. 
+The empty cart page has a completely different design than when it has items, with a return to shopping button on the main page.
 
-## Responsividade
+## Responsiveness
 
-Todo o site foi construindo seguindo o modelo de mobile first, sendo posteriormente adequado para desktop.
+The entire site was built following the mobile first model, being later adapted for desktop.
 
-## Coisas que gostaria de implementar
+## Things that will be implemented
 
-Infelizmente Chronus é implacável e impiedoso, fazendo com que seja impossível fazermos tudo que desejamos dentro de certo tempo. Por isso, por infortúnio do destino, alguns dos meus planos para o projeto ficaram para o futuro. São alguns exemplos: 
+Unfortunately Chronus is ruthless and merciless, making it impossible for us to do everything we want within a certain time. So, by the misfortune of fate, some of my plans for the project were left for the future. Here are some examples:
 
-- Animações entre as páginas
+-refactoring containing tests and better organization of files
 
-- Mudança de tema claro e escuro além de temas seguindo a paleta de cores das joias do infinito
+- Animations between pages
 
-- Página my account com API do Git HUb e outras
+- Light and dark theme change plus themes following the infinity gems color palette
 
-- Integração com API dos correios
+- My account page with Git HUb API and others
 
-- Mais filtros
+- Integration with Post Office API
+
+- More filters
