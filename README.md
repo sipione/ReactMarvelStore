@@ -41,7 +41,7 @@ To create routes efficiently, following SPA parameters, the react-router-dom lib
 ## Side effects' control
 
 API requests are costly for performance, as well as causing side effects in the program, so all requests will be encapsulated within the useEffect hook with listener rendering control on certain events, such as in the cart element the use effect in addition to at build time it also re-renders elements according to the custom hook function call called useCart which has a function called managecart.
-```react
+```javascript
 const Cart = ()=>{
     const [cart, counter, manageCart] = useCart();
     const [jsonItems, setJsonItems] = useState([])
